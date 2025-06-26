@@ -1,0 +1,20 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = sns.load_dataset('iris')
+print("Shape:", df.shape)
+print("Columns:", df.columns)
+print("First 5 rows\n", df.head())
+print("\ninfo:", df.info())
+print("\ndescribe:", df.describe())
+sns.scatterplot(data=df , x  = 'sepal_length' , y = 'sepal_width' , hue = 'species')
+plt.title("Sepal length vs width")
+plt.show()
+df.hist(figsize=(10,6) , bins=15)
+plt.suptitle("Histogram of Iris Feature")
+plt.tight_layout()
+plt.show()
+plt.figure(figsize=(10,6))
+sns.boxplot(data=df)
+plt.title("box plot of all features")
+plt.show()
