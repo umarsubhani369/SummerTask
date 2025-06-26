@@ -36,4 +36,8 @@ The goal of this project is to simulate an AI-based health assistant that can:
 - **Session dictionary** – to store symptoms, timing, and last questions
 
 ---
+## Alert:
+
+>  Before running this project, make sure to create your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey) and set it as an environment variable (e.g., `GEMINI_API_KEY`) for secure access.
+
 
