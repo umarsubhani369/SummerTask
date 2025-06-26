@@ -1,0 +1,8 @@
+health-query-chatbot/
+│
+├── app.py                      # Main Flask app
+├── model.py                    # Your chatbot logic (function ask_bot)
+│
+├── templates/              
+│   └── index.html              # Frontend GUI          
+├── requirements.txt            # Dependencies               
