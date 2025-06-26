@@ -2,12 +2,12 @@ import os
 import google.generativeai as genai
 from datetime import datetime
 
-# ✅ Configure Gemini
+# Configure Gemini
 os.environ["GEMINI_API_KEY"] = "AIzaSyD-dDBxLdn2HH5IGieot5SXr4MaYDVQc8s"
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-# 🧠 Memory
+#  Memory
 session = {
     "symptoms": [],
     "timing": [],
@@ -16,14 +16,14 @@ session = {
     "offered_solution": False
 }
 
-# ✅ Chat logging
+#  Chat logging
 def log_chat(user, bot):
     with open("chat_log.txt", "a", encoding="utf-8") as f:
         ts = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
         f.write(f"{ts} USER: {user}\n")
         f.write(f"{ts} BOT : {bot}\n\n")
 
-# ✅ Prompt builder
+# Prompt builder
 def construct_prompt(user_input, replying_to=None):
     # Extract
     symptom_keywords = ["fever", "cough", "cold", "chills", "pain", "headache", "nausea", "vomit", "sore", "fatigue", "dizzy", "shaky"]
@@ -59,16 +59,16 @@ def construct_prompt(user_input, replying_to=None):
     return f"""
 You are a smart, warm, human-like health assistant.
 
-🎯 GOALS:
+ GOALS:
 - Understand symptoms & timeline contextually.
 - If 3+ symptoms shared, move to offering support instead of more questioning.
 - If user consents, share 2–3 general prevention tips, then say:
-  👉 “Please consult a doctor immediately for proper medical evaluation.”
+   “Please consult a doctor immediately for proper medical evaluation.”
 - Interpret 'yes' or 'no' based on your previous question.
 - Never repeat what the user already told you.
 - Never suggest medications, diagnosis, or act like a doctor.
 
-📌 CONTEXT MEMORY:
+ CONTEXT MEMORY:
 - Symptoms: {symptoms if symptoms else "none"}
 - Timeline: {timings if timings else "none"}
 - {reply_to}
@@ -77,7 +77,7 @@ You are a smart, warm, human-like health assistant.
 User: {user_input}
 Assistant:"""
 
-# ✅ Core function
+# Core function
 def ask_bot(user_input):
     try:
         vague_replies = ["yes", "no", "not yet", "maybe", "okay", "i don’t know"]
