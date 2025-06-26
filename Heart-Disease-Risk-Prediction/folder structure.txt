@@ -1,0 +1,10 @@
+heart-disease-prediction/
+├── app.py
+├── model.py
+├── model.pkl
+├── encoders.pkl
+├── dataset
+├── requirements.txt
+├── README.md
+├── templates/
+│   └── index.html
