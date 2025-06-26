@@ -96,4 +96,4 @@ def ask_bot(user_input):
         return reply
 
     except Exception as e:
-        return f"❌ Error: {str(e)}"
+        return f" Error: {str(e)}"
