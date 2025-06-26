@@ -1,4 +1,4 @@
-# 🧠 AI/ML Projects Portfolio – Summer Task 2025
+# 🧠 AI/ML Projects – Summer Task 2025
 
 This repository contains **three AI-powered Python projects** developed using **Flask**, **Gemini API**, and **Machine Learning models**. Each project demonstrates a different domain: conversational AI, health risk prediction, and data visualization.
 
