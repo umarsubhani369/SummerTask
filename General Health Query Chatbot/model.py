@@ -3,7 +3,7 @@ import google.generativeai as genai
 from datetime import datetime
 
 # Configure Gemini
-os.environ["GEMINI_API_KEY"] = "AIzaSyD-dDBxLdn2HH5IGieot5SXr4MaYDVQc8s"
+os.environ["GEMINI_API_KEY"] = "" # Alert: Insert api key here before running this code
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-1.5-flash")
 
