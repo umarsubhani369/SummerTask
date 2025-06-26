@@ -37,9 +37,3 @@ The goal of this project is to simulate an AI-based health assistant that can:
 
 ---
 
-##  How to Run This Project
-
-### Clone the repository
-```bash
-git clone https://github.com/yourusername/health-query-chatbot.git
-cd health-query-chatbot
