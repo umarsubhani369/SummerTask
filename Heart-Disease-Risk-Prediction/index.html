@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Heart Disease Risk Prediction System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f2f1, #ffffff);
+      color: #333;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1.title {
+      margin: 20px 0;
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      color: #00796b;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+    }
+
+    .form-section {
+      flex: 2;
+      padding: 20px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      margin-right: 10px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    select#thal {
+      grid-column: span 2;
+      justify-self: center;
+      width: 50%;
+    }
+
+    button {
+      grid-column: span 2;
+      background-color: #009688;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+
+    .result-section {
+      flex: 1;
+      padding: 20px;
+      background-color: #e0f7fa;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      margin-left: 10px;
+    }
+
+    .result-section h2 {
+      color: #004d40;
+      margin-bottom: 16px;
+    }
+
+    .result-box {
+      background: #ffffff;
+      padding: 16px 24px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 18px;
+      width: 90%;
+      max-width: 320px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .form-section, .result-section {
+        margin: 0 0 10px 0;
+      }
+      .form-section, .result-section {
+        border-radius: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">Heart Disease Risk Prediction</h1>
+  <div class="container">
+    <div class="form-section">
+      <form method="POST" onsubmit="clearResult(); resetForm(); return validateForm();">
+        <input type="number" name="age" id="age" placeholder="Age (1–120)" required min="1" max="120">
+        <select name="sex" id="sex" required>
+          <option value="">Sex</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <select name="chest_pain_type" id="chest_pain_type" required>
+          <option value="">Chest Pain Type</option>
+          <option value="Typical angina">Typical angina</option>
+          <option value="Atypical angina">Atypical angina</option>
+          <option value="Non-anginal pain">Non-anginal pain</option>
+          <option value="Asymptomatic">Asymptomatic</option>
+        </select>
+        <input type="number" name="resting_blood_pressure" id="bp" placeholder="Resting BP (70–250 mm Hg)" required min="70" max="250">
+        <input type="number" name="cholestoral" id="chol" placeholder="Cholesterol (100–600 mg/dL)" required min="100" max="600">
+        <select name="rest_ecg" id="rest_ecg" required>
+          <option value="">Rest ECG</option>
+          <option value="Normal">Normal</option>
+          <option value="ST-T wave abnormality">ST-T wave abnormality</option>
+          <option value="Left ventricular hypertrophy">Left ventricular hypertrophy</option>
+        </select>
+        <input type="number" name="max_heart_rate" id="hr" placeholder="Max Heart Rate (60–220 bpm)" required min="60" max="220">
+        <input type="number" step="0.1" name="oldpeak" id="oldpeak" placeholder="Oldpeak (0.0–10.0)" required min="0" max="10">
+        <select name="thalassemia" id="thal" required>
+          <option value="">Thalassemia</option>
+          <option value="Normal">Normal</option>
+          <option value="Fixed Defect">Fixed Defect</option>
+          <option value="Reversable Defect">Reversable Defect</option>
+          <option value="No">No</option>
+        </select>
+        <button type="submit">Predict</button>
+      </form>
+    </div>
+    <div class="result-section">
+      <h2>Prediction Result</h2>
+      <div class="result-box" id="result-box">
+        {% if result %}{{ result }}{% else %}Please fill out the form to get your result.{% endif %}
+      </div>
+    </div>
+  </div>
+  <script>
+    function validateForm() {
+      const age = parseInt(document.getElementById("age").value);
+      const bp = parseInt(document.getElementById("bp").value);
+      const chol = parseInt(document.getElementById("chol").value);
+      const hr = parseInt(document.getElementById("hr").value);
+      const oldpeak = parseFloat(document.getElementById("oldpeak").value);
+      if (age < 1 || age > 120) {
+        alert("Age must be between 1 and 120."); return false;
+      }
+      if (bp < 70 || bp > 250) {
+        alert("Resting Blood Pressure must be between 70 and 250 mm Hg."); return false;
+      }
+      if (chol < 100 || chol > 600) {
+        alert("Cholesterol must be between 100 and 600 mg/dL."); return false;
+      }
+      if (hr < 60 || hr > 220) {
+        alert("Max Heart Rate must be between 60 and 220 bpm."); return false;
+      }
+      if (oldpeak < 0 || oldpeak > 10) {
+        alert("Oldpeak must be between 0.0 and 10.0."); return false;
+      }
+      return true;
+    }
+
+    function resetForm() {
+      setTimeout(() => {
+        document.querySelector("form").reset();
+      }, 100);
+    }
+
+    function clearResult() {
+      const resultBox = document.getElementById("result-box");
+      if (resultBox) {
+        resultBox.innerHTML = "Please fill out the form to get your result.";
+      }
+    }
+  </script>
+</body>
+</html>
