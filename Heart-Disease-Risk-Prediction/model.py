@@ -53,7 +53,7 @@ cv_mean = cv_scores.mean()
 importances = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
 
 # Print results
-print("✅ Model Evaluation Summary (with overfitting control)")
+print("Model Evaluation Summary (with overfitting control)")
 print(f"Holdout Accuracy: {accuracy:.4f}")
 print(f"Cross-validation Accuracy: {cv_mean:.4f}")
 print("\nConfusion Matrix:")
