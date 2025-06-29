@@ -70,7 +70,7 @@ Each folder contains its own `README.md` with:
 ## 📌 Author
 
 **Umer Hayat**   
-International Islamic University Islamabad.  
+Computer Engineer
 
 ---
 
